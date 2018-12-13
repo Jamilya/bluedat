@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Home Page - BlueDAT Asset Tracking </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+
+    <script language="javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script language="javascript" src="https://momentjs.com/downloads/moment.js"></script>
+    <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css">
+
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/src/js/bootstrap-datetimepicker.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/a549aa8780dbda16f6cff545aeabc3d71073911e/build/css/bootstrap-datetimepicker.css"
+        rel="stylesheet" /> -->
+    <!-- <script type="text/javascript" src="lib/jquery/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" /> -->
+
+    <link rel="stylesheet" href="lib/css/style.css">
+    <style>
+        .panel-info>.panel-heading {
+            background-image: none;
+            background-color: rgb(81, 91, 141);
+            color: rgb(243, 234, 234);
+            border-color: rgb(81, 91, 141);
+
+        }
+        .panel-group>.panel-heading:hover {
+            background-image: none;
+            background-color: rgb(81, 91, 141);
+            color: rgb(243, 234, 234);
+            border-color: rgba(221, 221, 233, 0.404);
+
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">GF</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="src/about.html">About</a>
+                    </li>
+                    <li>
+                        <a href="src/contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> -->
+
+    <div class="header">
+        <h1>BlueDAT Asset Tracking</h1>
+        <p>Startseite für Beacon- und Standortsuche im Fertigungsbereich</p>
+    </div>
+    <div id="mapDiv" style="position: absolute">
+        <img src="img/gf_grundriss_neu.png" style="margin-bottom: 55px; max-width: 600px; border: solid 1px rgb(0, 0, 0); width: 100%;">
+        <div id="lines" style="width:100%; height: 100%; position: relative; left:0; top: 0;"></div>
+    </div>
+
+    </div>
+
+    <div class="col-md-4" style="float: right;"> 
+        <div class="panel panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">Beaconsuche</div>
+                <div class="panel-body">
+                    <table>
+                        <tr>
+                            <th width="10%">Beacon ID </th>
+                        </tr>
+                        <tr>
+                            <td width="20%" style="padding-top: 6px;">
+                                <select id="requestedBeaconID" name="requestedBeaconID">
+                                    <option value="fQhM">B1 (Tough Beacon 1)</option>
+                                    <option value="tCeY">B2 (Tough Beacon 2)</option>
+                                    <option value="y7sA">B3 (Tough Beacon 3)</option>
+                                    <option value="OpwQ">B4 (gelber Card Beacon)</option>
+                                    <option value="9BEd">B5 (gr&#xFC;ner Card Beacon)</option>
+                                    <option value="IhCY">B6 (roter Card Beacon)</option>
+                                    <option value="Ryco">B7 (Beacon 1)</option>
+                                    <option value="hR4S">B8 (Beacon Pro 1)</option>
+                                    <option value="nnhk">B9 (Beacon Pro 2)</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th width="10%" style="padding-top: 15px;">Startzeit </th>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 6px;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <div class="input-group date" id="datetimepickerStartTime">
+                                        <!-- <div style="position:absolute; width: 145px; height: 34px;z-index: 3; "></div> -->
+                                        <input type="text" class="form-control" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="10%" style="padding-top: 15px;">Endzeit </th>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 6px; padding-bottom: 6px;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <div class="input-group date" id="datetimepickerEndTime">
+                                        <!-- <div style="position:absolute;width: 145px;height: 34px;z-index: 3;/* background-color: #000; */"></div> -->
+                                        <input type='text' class="form-control" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <script type="text/javascript">
+                    //$('#datetimepickerStartTime').datetimepicker();
+                    $(function () {
+                        console.log("hello there!");
+                        $('#datetimepickerStartTime').datetimepicker();
+                        $('#datetimepickerEndTime').datetimepicker({
+                            useCurrent: false //Important! See issue #1075
+                        });
+                        $("#datetimepickerStartTime").on("dp.change", function (e) {
+                            $('#datetimepickerEndTime').data("DateTimePicker").minDate(e.date);
+                        });
+                        $("#datetimepickerEndTime").on("dp.change", function (e) {
+                            $('#datetimepickerStartTime').data("DateTimePicker").maxDate(e.date);
+                        });
+                    });
+
+
+                        // $(function () {
+                        //     $('#datetimepickerEndTime').datetimepicker({
+                        //         locale: 'de',
+                        //         defaultDate: new Date(),
+                        //         widgetPositioning: {
+                        //             horizontal: 'left',
+                        //             vertical: 'auto'
+                        //         }
+                        //     });
+
+                            // resizeMapElements(true);
+                            // window.addEventListener("resize", resizeMapElements);
+                       // });
+
+                </script>
+                <!-- <div class="panel-footer"> -->
+                <!-- <input type="submit" value="Submit" /> -->
+                <button class='button1' id="first" style="position: relative">Suchen</button>
+
+                <!-- </div> -->
+            </div>
+        </div>
+        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8FCe9RPIvaBAhhnNZ1Leq-wL2YG5yk-v_9iOZhR7EX88JkB4SLnsnkrm-OE2k2msvBHGXkHIOhZkdK8E6BxFlXgrwUjGQB7_m8W0iUZkIfJotazn9wN2NSOukItUdkLFIDHRgAfRI_jMmYDz413SiiU"
+        />
+
+
+
+
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">Standortsuche</div>
+                <div class="panel-body">
+                    <table>
+                        <tr>
+                            <th width="10%">Standort </th>
+                            <td width="20%">
+                                <select id="requestedLocationID" name="requestedLocationID">
+                                    <option value="Lieferbereich">Lieferbereich</option>
+                                    <option value="Stanzen">Stanzen</option>
+                                    <option value="Abpackenundroboter">Abpacken und Roboter</option>
+                                    <option value="Lager">Lager</option>
+                                    <option value="Testzone1">Testzone1</option>
+                                    <option value="Testzone2">Testzone2</option>
+                                    <option value="Testzone3">Testzone3</option>
+
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- <div class="panel-footer"> -->
+                <!-- <input type="submit" value="Submit" /> -->
+                <button class='button2' id="second" style="position: relative">Suchen</button>
+                <!-- </div> -->
+            </div>
+        </div>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+        <script src="lib/js/script.js"></script>
+        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8FCe9RPIvaBAhhnNZ1Leq-wL2YG5yk-v_9iOZhR7EX88JkB4SLnsnkrm-OE2k2msvBHGXkHIOhZkdK8E6BxFlXgrwUjGQB7_m8W0iUZkIfJotazn9wN2NSOukItUdkLFIDHRgAfRI_jMmYDz413SiiU"
+        />
+
+
+        <div class="panel-group">
+            <div class="panel panel-info">
+            </div>
+            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8FCe9RPIvaBAhhnNZ1Leq-wL2YG5yk-v_9iOZhR7EX88JkB4SLnsnkrm-OE2k2msvBHGXkHIOhZkdK8E6BxFlXgrwUjGQB7_m8W0iUZkIfJotazn9wN2NSOukItUdkLFIDHRgAfRI_jMmYDz413SiiU"
+            />
+
+            <form>
+                <div class="panel-group">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Dateiexport</div>
+                        <!-- <div class="panel-body"> -->
+                        <div class="ExportSection">
+                            <script>
+                                $(document).ready(function () {
+                                    $('form').each(function () {
+                                        var $table = $(this);
+                                        var $button = $("<button type='button'>");
+                                        $button.text("Als CSV Exportieren");
+                                        $button.insertAfter($table);
+
+                                        $button.click(function () {
+                                            CSV.begin('table').download('output.csv').go();
+                                        });
+                                    });
+                                })
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+    </form>
+    <script src="lib/js/csv_export/lz-string-1.3.0.js"></script>
+    <script src="lib/js/csv_export/html5csv.js"></script>
+
+    <div class="row justify-content-between">
+        <div class="col-12 col-sm-6 col-md-8">
+            <div id="result">
+
+            </div>
+
+
+
+        </div>
+    </div>
+</body>
+
+</html>
